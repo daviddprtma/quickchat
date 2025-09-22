@@ -24,7 +24,7 @@ class ChatDashboard extends Component
                 ->when($this->searchUsers, function ($query) {
                     $query->where(function ($q) {
                         $q->where('users.name', 'like', '%' . $this->searchUsers . '%')
-                          ->orWhere('users.email', 'like', '%' . $this->searchUsers . '%');
+                            ->orWhere('users.email', 'like', '%' . $this->searchUsers . '%');
                     });
                 })
                 ->get();
@@ -34,7 +34,7 @@ class ChatDashboard extends Component
                 ->when($this->searchUsers, function ($query) {
                     $query->where(function ($q) {
                         $q->where('name', 'like', '%' . $this->searchUsers . '%')
-                          ->orWhere('email', 'like', '%' . $this->searchUsers . '%');
+                            ->orWhere('email', 'like', '%' . $this->searchUsers . '%');
                     });
                 })
                 ->get();
@@ -90,9 +90,8 @@ class ChatDashboard extends Component
         $this->selectedGroup = null;
         $this->selectedUser = null;
         $this->dispatch('clearSelection');
-        
+
         // Force refresh to ensure the Chat component updates
         $this->dispatch('$refresh');
     }
 }
-
