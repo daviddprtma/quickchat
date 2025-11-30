@@ -21,7 +21,7 @@ use Illuminate\Support\Str;
 
 Route::get('/', function () {
     return view('index');
-});
+})->name('home');
 
 // Footer Pages
 Route::get('/about', function () {
@@ -45,7 +45,7 @@ Route::get('/faq', function () {
 });
 
 // Admin Routes
-Route::group(['middleware' => ['role:admin']], function () { 
+Route::group(['middleware' => ['role:admin']], function () {
 
     // Admin Dashboard
     Route::get('/admin/dashboard', function () {
@@ -59,9 +59,8 @@ Route::group(['middleware' => ['role:admin']], function () {
 
     Route::get('/users/{id}', function ($id) {
         $user = User::findOrFail($id);
-        return view('admin.users.show',compact('user'));
+        return view('admin.users.show', compact('user'));
     })->name('user.show');
-
 });
 
 // List article
@@ -89,13 +88,12 @@ Route::get('/articles/{article}/edit', function (Article $article) {
 })->name('edit-article');
 
 // User Routes
-Route::group(['middleware' => ['auth','accepted.terms']], function () { 
+Route::group(['middleware' => ['auth', 'accepted.terms']], function () {
 
     // User Dashboard
     Route::get('/chat', function () {
         return view('dashboard');
     })->name('user.dashboard');
-
 });
 
 Route::middleware('auth')->group(function () {
@@ -121,7 +119,7 @@ Route::get('/invite/{link}', function ($link) {
 
 Route::match(['get', 'post'], '/group/join/{group}', function (\App\Models\Group $group) {
     $userId = auth()->id();
-    
+
     // Check if user is already a member
     $existing = GroupMessage::where('group_id', $group->id)
         ->where('invited_by', $userId)
@@ -144,7 +142,7 @@ Route::match(['get', 'post'], '/group/join/{group}', function (\App\Models\Group
             'invited_by' => $userId,
         ]);
 
-        return  view('group.dashboard', compact('group')) 
+        return  view('group.dashboard', compact('group'))
             ->with('status', 'Your request to join the group has been sent!');
     }
 
@@ -152,7 +150,4 @@ Route::match(['get', 'post'], '/group/join/{group}', function (\App\Models\Group
         ->with('status', 'You have already requested to join this group.');
 })->name('group.join');
 
-
-require __DIR__.'/auth.php';
-
-
+require __DIR__ . '/auth.php';
